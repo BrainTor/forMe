@@ -49,6 +49,7 @@ document.querySelector('#buttonSend').onclick = async() => {
         body: JSON.stringify({ password: getValue })
     }).then((res) => res.json())
     if (result.status === 'ok') {
+        window.jwt = result.token
         localStorage.setItem('token', result.token)
         await loadLvl(lvl + 1)
         lvl++
@@ -112,4 +113,42 @@ async function dayButtonClick(type) {
     document.querySelector('.' + lvls[lvl - 1]).classList.remove('f-class')
     document.querySelector('.' + lvls[lvl - 1]).classList.add('n-class')
 
+}
+
+// Function to get events by JWT
+async function getEvents() {
+    const response = await fetch('/events', {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${jwt}`
+        }
+    });
+    const data = await response.json();
+    return data;
+}
+
+// Function to add an event by JWT
+async function addEvent(eventData) {
+    const response = await fetch('/events', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${jwt}`
+        },
+        body: JSON.stringify(eventData)
+    });
+    const data = await response.json();
+    return data;
+}
+
+// Function to remove an event by JWT and event ID
+async function removeEvent(eventId) {
+    const response = await fetch(`/events/${eventId}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${jwt}`
+        }
+    });
+    const data = await response.json();
+    return data;
 }
