@@ -5,21 +5,23 @@ var state
 var typeOfLesson
 var day
 
-
 async function checkJwt() {
     let checker
     if (localStorage.getItem('token') === null) return false
     await fetch('/checkToken', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ token: localStorage.getItem('token') })
-        })
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({token: localStorage.getItem('token')})
+    })
         .then((res) => res.json())
         .then((res) => {
-            if (res.status === 'ok') checker = true
-            else {
+            if (res.status === 'ok') {
+                window.jwt = localStorage.getItem('token')
+
+                checker = true
+            } else {
                 localStorage.clear()
                 checker = false
             }
@@ -30,7 +32,7 @@ async function checkJwt() {
     return checker | false
 }
 
-document.querySelector('body').onload = async() => {
+document.querySelector('body').onload = async () => {
     if (!await checkJwt())
         return
     await loadLvl(lvl + 1)
@@ -39,14 +41,14 @@ document.querySelector('body').onload = async() => {
     document.querySelector('.floatingActionButton').classList.add('f-class')
 }
 
-document.querySelector('#buttonSend').onclick = async() => {
+document.querySelector('#buttonSend').onclick = async () => {
     getValue = document.querySelector('#inputSecret').value
     var result = await fetch('/checkPas', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ password: getValue })
+        body: JSON.stringify({password: getValue})
     }).then((res) => res.json())
     if (result.status === 'ok') {
         window.jwt = result.token
@@ -60,15 +62,27 @@ document.querySelector('#buttonSend').onclick = async() => {
 
 }
 
+let _onloads = {}
+
 async function loadLvl(lvlGets) {
     lvls.forEach((element, index) => {
         if (index == lvlGets) {
-            document.querySelector('.' + lvls[index - 1]).classList.remove('f-class')
-            document.querySelector('.' + lvls[index - 1]).classList.add('n-class')
-            if (document.querySelector('.' + lvls[index]).classList.contains('n-class'))
-                document.querySelector('.' + lvls[index]).classList.remove('n-class')
-            document.querySelector('.' + lvls[index]).classList.add('f-class')
+            console.log(lvlGets)
+            if (state === "show") {
+                mainSwitcher.classList.add("n-class")
+                mainSwitcher.classList.remove("f-class")
+                showCont.classList.add("f-class")
+                showCont.classList.remove("n-class")
+                _onloads["control"]();
+            } else {
+                if (_onloads[state]) _onloads[state]();
+                document.querySelector('.' + lvls[index - 1]).classList.remove('f-class')
+                document.querySelector('.' + lvls[index - 1]).classList.add('n-class')
+                if (document.querySelector('.' + lvls[index]).classList.contains('n-class'))
+                    document.querySelector('.' + lvls[index]).classList.remove('n-class')
+                document.querySelector('.' + lvls[index]).classList.add('f-class')
 
+            }
         }
     })
 }
@@ -89,18 +103,23 @@ document.querySelector('.floatingActionButton').onclick = () => {
         }
     })
     lvl--
+    showCont.classList.remove("f-class")
+    showCont.classList.add("n-class")
 }
 
 async function clickControlButton(type) {
     state = type
     lvl++
     await loadLvl(lvl)
+
 }
+
 async function switchButtonClick(type) {
     typeOfLesson = type
     lvl++
     await loadLvl(lvl)
 }
+
 async function dayButtonClick(type) {
     day = type
     lvl++
@@ -151,4 +170,27 @@ async function removeEvent(eventId) {
     });
     const data = await response.json();
     return data;
+}
+
+_onloads["control"] = () => {
+    mount.innerHTML = '';
+    getEvents().then(ev => {
+        ev.forEach(e => {
+            mount.innerHTML += `<div class="item">
+        <p>${e.date} ${e.time}</p>
+        <p>${e.name} - ${e.extra}</p>
+        <button onclick="removeHandler('${e._id}')">Удалить</button>
+</div>`
+        })
+    })
+}
+
+function addHandler() {
+    addEvent({name: typeOfLesson, "date": day, extra: nameAdd.value, time: dateAdd.value});alert("Добавлено");
+    location.reload();
+}
+
+function removeHandler(id) {
+    removeEvent(id);alert("Удалено");
+    location.reload();
 }

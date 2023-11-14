@@ -45,10 +45,10 @@
         <button id="buttonSend">Отправить</button>
     </div>
 
-    <div class="controlContainerMain control">
+    <div class="controlContainerMain control" id="mainSwitcher">
         <button class="contolButton" onclick="clickControlButton('add')">Добавить</button>
         <button class="contolButton" onclick="clickControlButton('show')">Посмотреть</button>
-        <button class="contolButton" onclick="clickControlButton('delete')">Удалить</button>
+<!--        <button class="contolButton" onclick="clickControlButton('delete')">Удалить</button>-->
     </div>
 
 
@@ -75,10 +75,10 @@
         <div class="controlContainerInfo add">
             <div style="display: flex;flex-direction: column; padding: 50px; border: 3px solid black;">
                 <p class="infoLabel">Введите имя ученика/название события</p>
-                <input type="text" class="nameInfo" name="name">
+                <input type="text" class="nameInfo" name="name" id="nameAdd">
                 <p class="infoLabel">Введите время</p>
-                <input type="time" class="timeInfo" name="type">
-                <button id="sendInfo">Отправить</button>
+                <input type="time" class="timeInfo" name="type" id="dateAdd">
+                <button id="sendInfo" onclick="addHandler()">Отправить</button>
             </div>
         </div>
         <div class="controlContainerInfo delete">
@@ -91,8 +91,8 @@
             </div>
         </div>
 
-        <div class="show">
-
+        <div class="show controlContainerInfo" id="showCont">
+            <ul id="mount"></ul>
         </div>
     </div>
     <script src="./main.js"></script>
