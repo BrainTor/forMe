@@ -8,14 +8,12 @@ const Event = require('./event');
 const app = express()
 const passwordChecked = 'testPas'
 const Secret = 'dshasyudhosady7uqadhuiasddu89adu9q8i9d12'
+    //QgGJTEx4Dy2oWQ6G
 var jsonToken = ''
     //Подключить монгу 
 app.listen('3000', () => {
     console.log('server started')
-    mongoose.connect('mongodb://localhost:27017/maxim', {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    }).then(() => {
+    mongoose.connect('mongodb+srv://BrainTor:771Moe33@cluster0.qzr5zit.mongodb.net/').then(() => {
         console.log('Connected to MongoDB');
     }).catch((error) => {
         console.error('Failed to connect to MongoDB', error);
@@ -44,7 +42,7 @@ app.use('/checkPas', async(req, res) => {
     }
 })
 
-app.use('/checkToken', async (req, res) => {
+app.use('/checkToken', async(req, res) => {
     const { token: fromClientToken } = req.body;
     jwt.verify(fromClientToken, Secret, (error, user) => {
         if (error) {
@@ -71,7 +69,7 @@ function authenticateToken(req, res, next) {
 }
 
 // GET /events - return all events - needs jwt
-app.get('/events', authenticateToken, async (req, res) => {
+app.get('/events', authenticateToken, async(req, res) => {
     try {
         const events = await Event.find();
         res.json(events);
@@ -82,7 +80,7 @@ app.get('/events', authenticateToken, async (req, res) => {
 });
 
 // POST /events - add new event from body - needs jwt
-app.post('/events', authenticateToken, async (req, res) => {
+app.post('/events', authenticateToken, async(req, res) => {
     try {
         const event = new Event(req.body);
         await event.save();
@@ -94,7 +92,7 @@ app.post('/events', authenticateToken, async (req, res) => {
 });
 
 // DELETE /events/:_id - remove event by object id - needs jwt
-app.delete('/events/:_id', authenticateToken, async (req, res) => {
+app.delete('/events/:_id', authenticateToken, async(req, res) => {
     try {
         const { _id } = req.params;
         await Event.findByIdAndDelete(_id);

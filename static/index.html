@@ -48,32 +48,32 @@
     <div class="controlContainerMain control" id="mainSwitcher">
         <button class="contolButton" onclick="clickControlButton('add')">Добавить</button>
         <button class="contolButton" onclick="clickControlButton('show')">Посмотреть</button>
-<!--        <button class="contolButton" onclick="clickControlButton('delete')">Удалить</button>-->
+        <!--        <button class="contolButton" onclick="clickControlButton('delete')">Удалить</button>-->
     </div>
 
 
     <div class="controlContainerMain switch">
-        <button class="switchButton" onclick="switchButtonClick('testLes')">Пробное занятие</button>
-        <button class="switchButton" onclick="switchButtonClick('event')">Событие</button>
-        <button class="switchButton" onclick="switchButtonClick('normalLes')">Постоянное занятие</button>
-        <button class="switchButton" onclick="switchButtonClick('all')">Все(для посмотреть!)</button>
+        <button class="switchButton" onclick="switchButtonClick('Пробное')">Пробное занятие</button>
+        <button class="switchButton" onclick="switchButtonClick('Событие')">Событие</button>
+        <button class="switchButton" onclick="switchButtonClick('Обычное зан')">Постоянное занятие</button>
+        <button class="switchButton" onclick="switchButtonClick('Все')">Все(для посмотреть!)</button>
     </div>
 
 
     <div class="controlContainerMain days">
-        <button class="daysBut" onclick="dayButtonClick('mon')">Понедельник</button>
-        <button class="daysBut" onclick="dayButtonClick('tue')">Вторник</button>
-        <button class="daysBut" onclick="dayButtonClick('wed')">Среда</button>
-        <button class="daysBut" onclick="dayButtonClick('thu')">Четверг</button>
-        <button class="daysBut" onclick="dayButtonClick('fri')">Пятница</button>
-        <button class="daysBut" onclick="dayButtonClick('sat')">Суббота</button>
-        <button class="daysBut" onclick="dayButtonClick('sun')">Воскресенье</button>
+        <button class="daysBut" onclick="dayButtonClick('Понедельник')">Понедельник</button>
+        <button class="daysBut" onclick="dayButtonClick('Вторник')">Вторник</button>
+        <button class="daysBut" onclick="dayButtonClick('Среда')">Среда</button>
+        <button class="daysBut" onclick="dayButtonClick('Четверг')">Четверг</button>
+        <button class="daysBut" onclick="dayButtonClick('Пятница')">Пятница</button>
+        <button class="daysBut" onclick="dayButtonClick('Суббота')">Суббота</button>
+        <button class="daysBut" onclick="dayButtonClick('Воскресенье')">Воскресенье</button>
     </div>
 
     <div class="info">
 
         <div class="controlContainerInfo add">
-            <div style="display: flex;flex-direction: column; padding: 50px; border: 3px solid black;">
+            <div style="display: flex;flex-direction: column; padding: 50px; border: 3px solid black;border-radius: 8px;">
                 <p class="infoLabel">Введите имя ученика/название события</p>
                 <input type="text" class="nameInfo" name="name" id="nameAdd">
                 <p class="infoLabel">Введите время</p>
@@ -82,7 +82,7 @@
             </div>
         </div>
         <div class="controlContainerInfo delete">
-            <div style="display: flex;flex-direction: column; padding: 50px; border: 3px solid black;">
+            <div style="display: flex;flex-direction: column; padding: 50px; border: 3px solid black; border-radius: 8px;">
                 <p class="infoLabel">Введите имя ученика/название события</p>
                 <input type="text" class="nameInfo" name="name">
                 <p class="infoLabel">Введите время</p>
@@ -91,7 +91,7 @@
             </div>
         </div>
 
-        <div class="show controlContainerInfo" id="showCont">
+        <div class="show controlShowContainerInfo" id="showCont">
             <ul id="mount"></ul>
         </div>
     </div>

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
 .contolButton {
     padding: 40px;
     font-size: 25px;
@@ -30,8 +32,17 @@ body {
 }
 
 .controlContainerInfo {
-    width: 100%;
     height: 97.5vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    display: none;
+}
+
+.controlShowContainerInfo {
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -382,4 +393,49 @@ body {
     color: white;
     cursor: pointer;
     border-radius: 7px;
+}
+
+.timeShow {
+    font-size: 1.6rem;
+    color: rgb(4, 56, 56);
+    margin-top: -1rem;
+    font-family: 'Noto Sans', sans-serif;
+}
+
+.nameShow {
+    font-size: 1.35rem;
+    margin-top: -10px;
+    color: rgb(50, 3, 71);
+    font-family: 'Playfair Display', serif;
+}
+
+.item {
+    padding: 20px;
+    border: 3px solid black;
+    justify-content: space-between;
+    margin-bottom: 3rem;
+    width: 250%;
+    display: flex;
+    justify-content: end;
+    margin-left: -6rem;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 8px;
+}
+
+.buttonShow {
+    width: 120px;
+    height: 40px;
+    border-radius: 5px;
+    border-color: transparent;
+    background-color: rgb(2, 57, 88);
+    color: whitesmoke;
+    font-size: medium;
+    transition: 0.6s;
+    cursor: pointer;
+}
+
+.buttonShow:hover {
+    background-color: rgba(2, 57, 88, 0.78);
+    border-color: black;
 }

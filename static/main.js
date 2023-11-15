@@ -9,12 +9,12 @@ async function checkJwt() {
     let checker
     if (localStorage.getItem('token') === null) return false
     await fetch('/checkToken', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({token: localStorage.getItem('token')})
-    })
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ token: localStorage.getItem('token') })
+        })
         .then((res) => res.json())
         .then((res) => {
             if (res.status === 'ok') {
@@ -32,7 +32,7 @@ async function checkJwt() {
     return checker | false
 }
 
-document.querySelector('body').onload = async () => {
+document.querySelector('body').onload = async() => {
     if (!await checkJwt())
         return
     await loadLvl(lvl + 1)
@@ -41,14 +41,14 @@ document.querySelector('body').onload = async () => {
     document.querySelector('.floatingActionButton').classList.add('f-class')
 }
 
-document.querySelector('#buttonSend').onclick = async () => {
+document.querySelector('#buttonSend').onclick = async() => {
     getValue = document.querySelector('#inputSecret').value
     var result = await fetch('/checkPas', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({password: getValue})
+        body: JSON.stringify({ password: getValue })
     }).then((res) => res.json())
     if (result.status === 'ok') {
         window.jwt = result.token
@@ -116,9 +116,8 @@ async function dayButtonClick(type) {
         if (document.querySelector('.add').classList.contains('n-class'))
             document.querySelector('.add').classList.remove('n-class')
         document.querySelector('.add').classList.add('f-class')
-    }
-    else if (state === "show") _onloads["show"]()
-
+    } else if (state === "show") _onloads["show"]()
+    alert(state)
     document.querySelector('.' + lvls[lvl - 1]).classList.remove('f-class')
     document.querySelector('.' + lvls[lvl - 1]).classList.add('n-class')
 
@@ -168,23 +167,25 @@ _onloads["show"] = () => {
     mount.innerHTML = '';
     getEvents().then(ev => {
         ev.forEach(e => {
-            if (typeOfLesson !== "all" && e.name !== typeOfLesson) return;
+            if (typeOfLesson !== "Все" && e.name !== typeOfLesson) return;
             if (day !== e.date) return;
-             mount.innerHTML += `<div class="item">
-        <p>${e.date} ${e.time}</p>
-        <p>${e.name} - ${e.extra}</p>
-        <button onclick="removeHandler('${e._id}')">Удалить</button>
+            mount.innerHTML += `<div class="item">
+        <p class = "timeShow">${e.date} ${e.time}</p>
+        <p class = "nameShow">${e.name} - ${e.extra}</p>
+        <button class = "buttonShow"  onclick="removeHandler('${e._id}')">Удалить</button>
 </div>`
         })
     })
 }
 
 function addHandler() {
-    addEvent({name: typeOfLesson, "date": day, extra: nameAdd.value, time: dateAdd.value});alert("Добавлено");
+    addEvent({ name: typeOfLesson, "date": day, extra: nameAdd.value, time: dateAdd.value });
+    alert("Добавлено");
     location.reload();
 }
 
 function removeHandler(id) {
-    removeEvent(id);alert("Удалено");
+    removeEvent(id);
+    alert("Удалено");
     location.reload();
 }
