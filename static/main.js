@@ -67,22 +67,11 @@ let _onloads = {}
 async function loadLvl(lvlGets) {
     lvls.forEach((element, index) => {
         if (index == lvlGets) {
-            console.log(lvlGets)
-            if (state === "show") {
-                mainSwitcher.classList.add("n-class")
-                mainSwitcher.classList.remove("f-class")
-                showCont.classList.add("f-class")
-                showCont.classList.remove("n-class")
-                _onloads["control"]();
-            } else {
-                if (_onloads[state]) _onloads[state]();
-                document.querySelector('.' + lvls[index - 1]).classList.remove('f-class')
-                document.querySelector('.' + lvls[index - 1]).classList.add('n-class')
-                if (document.querySelector('.' + lvls[index]).classList.contains('n-class'))
-                    document.querySelector('.' + lvls[index]).classList.remove('n-class')
-                document.querySelector('.' + lvls[index]).classList.add('f-class')
-
-            }
+            document.querySelector('.' + lvls[index - 1]).classList.remove('f-class')
+            document.querySelector('.' + lvls[index - 1]).classList.add('n-class')
+            if (document.querySelector('.' + lvls[index]).classList.contains('n-class'))
+                document.querySelector('.' + lvls[index]).classList.remove('n-class')
+            document.querySelector('.' + lvls[index]).classList.add('f-class')
         }
     })
 }
@@ -123,11 +112,12 @@ async function switchButtonClick(type) {
 async function dayButtonClick(type) {
     day = type
     lvl++
-    if (state == 'add' || state == 'delete') {
-        if (document.querySelector('.' + state).classList.contains('n-class'))
-            document.querySelector('.' + state).classList.remove('n-class')
-        document.querySelector('.' + state).classList.add('f-class')
+    if (state == 'add') {
+        if (document.querySelector('.add').classList.contains('n-class'))
+            document.querySelector('.add').classList.remove('n-class')
+        document.querySelector('.add').classList.add('f-class')
     }
+    else if (state === "show") _onloads["show"]()
 
     document.querySelector('.' + lvls[lvl - 1]).classList.remove('f-class')
     document.querySelector('.' + lvls[lvl - 1]).classList.add('n-class')
@@ -172,11 +162,15 @@ async function removeEvent(eventId) {
     return data;
 }
 
-_onloads["control"] = () => {
+_onloads["show"] = () => {
+    document.querySelector(".show").classList.remove("n-class")
+    document.querySelector(".show").classList.add("f-class")
     mount.innerHTML = '';
     getEvents().then(ev => {
         ev.forEach(e => {
-            mount.innerHTML += `<div class="item">
+            if (typeOfLesson !== "all" && e.name !== typeOfLesson) return;
+            if (day !== e.date) return;
+             mount.innerHTML += `<div class="item">
         <p>${e.date} ${e.time}</p>
         <p>${e.name} - ${e.extra}</p>
         <button onclick="removeHandler('${e._id}')">Удалить</button>
